@@ -9,9 +9,7 @@ class EntryTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user("alice", password="pass12345")
         self.other = User.objects.create_user("bob", password="pass12345")
-        self.entry = Entry.objects.create(
-            author=self.user, title="Первая", content="Текст про море"
-        )
+        self.entry = Entry.objects.create(author=self.user, title="Первая", content="Текст про море")
 
     def test_list_requires_login(self):
         response = self.client.get(reverse("entries:list"))

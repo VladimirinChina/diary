@@ -1,10 +1,10 @@
 from typing import Any
 
-from django.forms import ModelForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q, QuerySet
-from django.http import HttpResponse, HttpRequest
+from django.forms import ModelForm
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -39,9 +39,7 @@ class EntryListView(OwnerQuerysetMixin, ListView):
         queryset = super().get_queryset()
         query = self.request.GET.get("q", "").strip()
         if query:
-            queryset = queryset.filter(
-                Q(title__icontains=query) | Q(content__icontains=query)
-            )
+            queryset = queryset.filter(Q(title__icontains=query) | Q(content__icontains=query))
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:

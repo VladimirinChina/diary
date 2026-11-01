@@ -1,8 +1,8 @@
 from typing import Any
 
-from django.forms import ModelForm
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.forms import ModelForm
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
