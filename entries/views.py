@@ -15,7 +15,7 @@ from django.views.generic import (
 )
 
 from .forms import EntryForm
-from .models import Entry
+from .models import Entry, Mood
 
 
 class OwnerQuerysetMixin(LoginRequiredMixin):
@@ -35,16 +35,23 @@ class EntryListView(OwnerQuerysetMixin, ListView):
     context_object_name = "entries"
     paginate_by = 9
 
-    def get_queryset(self) -> QuerySet:
+    def get_queryset(self) -> QuerySet[Entry]:
         queryset = super().get_queryset()
         query = self.request.GET.get("q", "").strip()
         if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(content__icontains=query))
+            queryset = queryset.filter(
+                Q(title__icontains=query) | Q(content__icontains=query)
+            )
+        mood = self.request.GET.get("mood", "")
+        if mood in Mood.values:
+            queryset = queryset.filter(mood=mood)
         return queryset
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context["query"] = self.request.GET.get("q", "").strip()
+        context["mood"] = self.request.GET.get("mood", "")
+        context["moods"] = Mood.choices
         return context
 
 
