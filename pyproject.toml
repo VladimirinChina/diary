@@ -50,7 +50,6 @@ explicit_package_bases = true
 namespace_packages = true
 check_untyped_defs = true
 ignore_missing_imports = true
-plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
 
 [[tool.mypy.overrides]]
 module = ["django_filters.*", "celery.*"]
@@ -60,8 +59,6 @@ ignore_missing_imports = true
 [tool.poetry]
 package-mode = false
 
-[tool.django-stubs]
-django_settings_module = "config.settings"
 
 [tool.coverage.run]
 source = ["."]
