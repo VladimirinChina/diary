@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <h1 class="h3">{{ object.title }}</h1>
+        <p class="text-muted">
+            Создана: {{ object.created_at|date:"d.m.Y H:i" }}
+            {% if object.updated_at|date:"d.m.Y H:i" != object.created_at|date:"d.m.Y H:i" %}
+                · изменена: {{ object.updated_at|date:"d.m.Y H:i" }}
+            {% endif %}
+        </p>
+        <hr>
+        <div style="white-space: pre-wrap;">{{ object.content }}</div>
+    </div>
+    <div class="card-footer d-flex gap-2">
+        <a href="{% url 'entries:list' %}" class="btn btn-outline-secondary">К списку</a>
+        <a href="{% url 'entries:update' object.pk %}" class="btn btn-warning">Редактировать</a>
+        <a href="{% url 'entries:delete' object.pk %}" class="btn btn-danger ms-auto">Удалить</a>
+    </div>
+</div>
+{% endblock %}
