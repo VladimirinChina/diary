@@ -6,13 +6,25 @@
     <a href="{% url 'entries:create' %}" class="btn btn-primary">+ Новая запись</a>
 </div>
 
-<form method="get" class="input-group mb-4">
-    <input type="search" name="q" value="{{ query }}" class="form-control"
-           placeholder="Поиск по заголовку и содержимому">
-    <button class="btn btn-outline-secondary" type="submit">Найти</button>
-    {% if query %}
-        <a href="{% url 'entries:list' %}" class="btn btn-outline-danger">Сбросить</a>
-    {% endif %}
+<form method="get" class="row g-2 mb-4">
+    <div class="col-md-6">
+        <input type="search" name="q" value="{{ query }}" class="form-control"
+               placeholder="Поиск по заголовку и содержимому">
+    </div>
+    <div class="col-md-3">
+        <select name="mood" class="form-select">
+            <option value="">Любое настроение</option>
+            {% for value, label in moods %}
+                <option value="{{ value }}" {% if value == mood %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-3 d-flex gap-2">
+        <button class="btn btn-outline-secondary flex-fill" type="submit">Найти</button>
+        {% if query or mood %}
+            <a href="{% url 'entries:list' %}" class="btn btn-outline-danger">Сбросить</a>
+        {% endif %}
+    </div>
 </form>
 
 {% if entries %}
@@ -21,6 +33,7 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
+                        <span class="badge text-bg-secondary mb-2">{{ entry.get_mood_display }}</span>
                         <h5 class="card-title">{{ entry.title }}</h5>
                         <p class="card-text text-muted">{{ entry.content|truncatechars:120 }}</p>
                     </div>
@@ -38,7 +51,7 @@
             <ul class="pagination justify-content-center">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}">Назад</a>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if mood %}&mood={{ mood }}{% endif %}">Назад</a>
                     </li>
                 {% endif %}
                 <li class="page-item disabled">
@@ -46,7 +59,7 @@
                 </li>
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}">Вперёд</a>
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if mood %}&mood={{ mood }}{% endif %}">Вперёд</a>
                     </li>
                 {% endif %}
             </ul>
@@ -54,7 +67,7 @@
     {% endif %}
 {% else %}
     <div class="alert alert-info">
-        {% if query %}По запросу «{{ query }}» ничего не найдено.{% else %}У вас пока нет записей.{% endif %}
+        {% if query or mood %}По вашему запросу ничего не найдено.{% else %}У вас пока нет записей.{% endif %}
     </div>
 {% endif %}
 {% endblock %}

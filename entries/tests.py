@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Entry
+from .models import Entry, Mood
 
 
 class EntryTests(TestCase):
@@ -31,3 +31,15 @@ class EntryTests(TestCase):
         self.client.login(username="alice", password="pass12345")
         response = self.client.get(reverse("entries:list"), {"q": "море"})
         self.assertContains(response, "Первая")
+
+    def test_default_mood_is_neutral(self):
+        self.assertEqual(self.entry.mood, Mood.NEUTRAL)
+
+    def test_filter_by_mood(self):
+        Entry.objects.create(
+            author=self.user, title="Грустная", content="дождь", mood=Mood.SAD
+        )
+        self.client.login(username="alice", password="pass12345")
+        response = self.client.get(reverse("entries:list"), {"mood": Mood.SAD})
+        self.assertContains(response, "Грустная")
+        self.assertNotContains(response, "Первая")

@@ -4,6 +4,7 @@
 <div class="card shadow-sm">
     <div class="card-body p-4">
         <h1 class="h3">{{ object.title }}</h1>
+        <span class="badge text-bg-primary mb-2">{{ object.get_mood_display }}</span>
         <p class="text-muted">
             Создана: {{ object.created_at|date:"d.m.Y H:i" }}
             {% if object.updated_at|date:"d.m.Y H:i" != object.created_at|date:"d.m.Y H:i" %}
