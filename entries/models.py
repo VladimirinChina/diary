@@ -20,8 +20,8 @@ class Entry(models.Model):
         verbose_name_plural = "Записи"
         ordering = ["-created_at"]
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse("entries:detail", kwargs={"pk": self.pk})
