@@ -22,7 +22,7 @@ Python 3.11+, Django, PostgreSQL, Bootstrap 5, Docker, Docker Compose.
 - `users/` — регистрация, вход, выход
 - `entries/` — модель записи, формы, представления, шаблоны
 - `templates/` — базовый шаблон и шаблоны аутентификации
-- `Dockerfile`, `docker-compose.yml` — контейнеризация
+- `Dockerfile`, `docker-compose.yaml` — контейнеризация
 - `.env.example` — пример переменных окружения
 
 ## Запуск в Docker
@@ -42,6 +42,15 @@ Python 3.11+, Django, PostgreSQL, Bootstrap 5, Docker, Docker Compose.
 2. Поднять PostgreSQL и прописать доступы в `.env`.
 3. Применить миграции: `poetry run python manage.py migrate`
 4. Запустить: `poetry run python manage.py runserver`
+
+## Тесты и качество кода
+
+- Тесты: `docker compose exec web python manage.py test`
+- Стиль: `poetry run flake8 --max-line-length=100 --exclude=migrations .`
+- Типы: `poetry run mypy .`
+- CI: GitHub Actions (`.github/workflows/ci.yml`) запускает flake8, mypy, тесты и сборку Docker-образа при каждом push и Pull Request.
+
+Перед запуском создай файл окружения: `cp .env.example .env` (переменная `SECRET_KEY` обязательна).
 
 ## Права доступа
 
