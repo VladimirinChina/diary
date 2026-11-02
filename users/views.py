@@ -11,6 +11,7 @@ from .forms import LoginForm, RegisterForm
 
 
 class RegisterView(CreateView):
+    """Регистрация пользователя с автоматическим входом после успеха."""
     form_class = RegisterForm
     template_name = "registration/register.html"
     success_url = reverse_lazy("entries:list")
@@ -22,5 +23,6 @@ class RegisterView(CreateView):
 
 
 class UserLoginView(LoginView):
+    """Страница входа в систему."""
     authentication_form = LoginForm
     template_name = "registration/login.html"
