@@ -30,6 +30,7 @@ class OwnerQuerysetMixin(LoginRequiredMixin):
 
 
 class EntryListView(OwnerQuerysetMixin, ListView):
+    """Список записей текущего пользователя с поиском и фильтром по настроению."""
     model = Entry
     template_name = "entries/entry_list.html"
     context_object_name = "entries"
@@ -56,11 +57,13 @@ class EntryListView(OwnerQuerysetMixin, ListView):
 
 
 class EntryDetailView(OwnerQuerysetMixin, DetailView):
+    """Подробный просмотр одной записи, доступный только её автору."""
     model = Entry
     template_name = "entries/entry_detail.html"
 
 
 class EntryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
+    """Создание записи: автором автоматически становится текущий пользователь."""
     model = Entry
     form_class = EntryForm
     template_name = "entries/entry_form.html"
@@ -72,6 +75,7 @@ class EntryCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 
 class EntryUpdateView(OwnerQuerysetMixin, SuccessMessageMixin, UpdateView):
+    """Редактирование записи, доступное только её автору."""
     model = Entry
     form_class = EntryForm
     template_name = "entries/entry_form.html"
@@ -79,6 +83,7 @@ class EntryUpdateView(OwnerQuerysetMixin, SuccessMessageMixin, UpdateView):
 
 
 class EntryDeleteView(OwnerQuerysetMixin, DeleteView):
+    """Удаление записи с подтверждением, доступное только её автору."""
     model = Entry
     template_name = "entries/entry_confirm_delete.html"
     success_url = reverse_lazy("entries:list")

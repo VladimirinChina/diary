@@ -4,6 +4,7 @@ from django.urls import reverse
 
 
 class Mood(models.TextChoices):
+    """Варианты настроения, которое пользователь может указать в записи."""
     GREAT = "great", "😄 Отлично"
     GOOD = "good", "🙂 Хорошо"
     NEUTRAL = "neutral", "😐 Нормально"
@@ -13,6 +14,7 @@ class Mood(models.TextChoices):
 
 
 class Entry(models.Model):
+    """Запись личного дневника, принадлежащая одному пользователю."""
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,

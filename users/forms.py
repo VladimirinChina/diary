@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 
 class RegisterForm(UserCreationForm):
+    """Форма регистрации пользователя с полями Bootstrap."""
     class Meta:
         model = User
         fields = ("username", "email")
@@ -16,6 +17,7 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    """Форма входа с полями Bootstrap."""
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         for field in self.fields.values():

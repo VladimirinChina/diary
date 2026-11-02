@@ -4,6 +4,7 @@ from .models import Entry
 
 
 class EntryForm(forms.ModelForm):
+    """Форма создания и редактирования записи дневника."""
     class Meta:
         model = Entry
         fields = ("title", "mood", "content")
