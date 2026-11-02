@@ -3,6 +3,15 @@ from django.db import models
 from django.urls import reverse
 
 
+class Mood(models.TextChoices):
+    GREAT = "great", "😄 Отлично"
+    GOOD = "good", "🙂 Хорошо"
+    NEUTRAL = "neutral", "😐 Нормально"
+    SAD = "sad", "😢 Грустно"
+    ANXIOUS = "anxious", "😰 Тревожно"
+    ANGRY = "angry", "😠 Злюсь"
+
+
 class Entry(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -12,6 +21,12 @@ class Entry(models.Model):
     )
     title = models.CharField(max_length=200, verbose_name="Заголовок")
     content = models.TextField(verbose_name="Содержимое")
+    mood = models.CharField(
+        max_length=10,
+        choices=Mood.choices,
+        default=Mood.NEUTRAL,
+        verbose_name="Настроение",
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Создана")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Изменена")
 
